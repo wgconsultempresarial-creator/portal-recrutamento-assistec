@@ -1,0 +1,4 @@
+import {getDb} from '../../db';import {forms,jobs} from '../../db/schema';import {eq,desc} from 'drizzle-orm';import {isOpen,parseQuestions} from './recruitment';
+export async function publicJobs(){const data=await getDb().select({job:jobs,formStatus:forms.status}).from(jobs).innerJoin(forms,eq(jobs.formId,forms.id)).where(eq(jobs.status,'Aberta')).orderBy(desc(jobs.createdAt));return data.filter(x=>x.formStatus==='Publicado'&&isOpen(x.job)).map(x=>x.job);}
+export async function publicForm(id:string){const [f]=await getDb().select().from(forms).where(eq(forms.id,id));return f?.status==='Publicado'?parseQuestions(f):null;}
+export async function publicJob(id:string){const[j]=await getDb().select().from(jobs).where(eq(jobs.id,id));if(!j||!isOpen(j))return null;const f=await publicForm(j.formId);return f?{job:j,form:f}:null;}

@@ -8,6 +8,13 @@
       "when": 1792785307086,
       "tag": "0000_third_zuras",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1792788932324,
+      "tag": "0001_fine_crusher_hogan",
+      "breakpoints": true
     }
   ]
 }
