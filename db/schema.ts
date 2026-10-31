@@ -1,4 +1,7 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+export const maintenanceReports=sqliteTable('maintenance_reports',{
+ id:text('id').primaryKey(), branch:text('branch').notNull(), company:text('company').notNull(), plate:text('plate').notNull(), date:text('date').notNull(), services:text('services').notNull(), signatureMode:text('signature_mode').notNull(), status:text('status').notNull().default('Rascunho'), createdAt:text('created_at').notNull(), createdBy:text('created_by').notNull()
+});
 export const candidates = sqliteTable('candidates', {
  id:text('id').primaryKey(), name:text('name').notNull(), phone:text('phone').notNull(), email:text('email').notNull(), city:text('city').notNull(), role:text('role').notNull(), unit:text('unit').notNull(), experience:text('experience').notNull(), skills:text('skills').notNull(), availability:text('availability').notNull(), status:text('status').notNull().default('Novo'), notes:text('notes').notNull().default(''), createdAt:text('created_at').notNull(), consentAt:text('consent_at').notNull(), updatedBy:text('updated_by'), jobId:text('job_id'), formId:text('form_id'), jobTitle:text('job_title'), answers:text('answers').notNull().default('[]')
 });
