@@ -14,7 +14,7 @@ export type MaintenanceDraft = {
   branch:string; company:string; plate:string; date:string;
   services:string[]; signatureMode:'manual'|'authorized';
 };
-export function validateDraft(value:unknown):MaintenanceDraft {
+export function validateDraft(value:unknown,allowAuthorized=false):MaintenanceDraft {
   if(!value || typeof value!=='object') throw Error('Dados inválidos.');
   const b=value as Record<string,unknown>;
   if(!maintenanceBranches.some(x=>x.id===b.branch)) throw Error('Selecione uma filial válida.');
@@ -24,6 +24,11 @@ export function validateDraft(value:unknown):MaintenanceDraft {
   if(typeof b.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(b.date)||!Number.isFinite(Date.parse(b.date+'T12:00:00Z'))||new Date(b.date+'T12:00:00Z').toISOString().slice(0,10)!==b.date) throw Error('Informe uma data válida.');
   if(!Array.isArray(b.services)||!b.services.length||b.services.some(s=>typeof s!=='string'||!s.trim()||s.trim().length>2000)) throw Error('Preencha todos os serviços (até 2.000 caracteres por item).');
   if(b.signatureMode!=='manual'&&b.signatureMode!=='authorized') throw Error('Selecione o tipo de assinatura.');
-  if(b.signatureMode==='authorized') throw Error('A filial ainda não possui assinatura/carimbo cadastrado e autorizado.');
+  if(b.signatureMode==='authorized'&&!allowAuthorized) throw Error('A filial ainda não possui assinatura/carimbo cadastrado e autorizado.');
+  for(const text of [b.company,...b.services]) if(/[^\x20-\x7e\xa0-\xff\n\r\t€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ]/u.test(text as string)) throw Error('Use letras, números e pontuação nos textos do laudo.');
   return {branch:b.branch as string,company:b.company.trim(),plate,date:b.date,services:b.services.map(s=>(s as string).trim()),signatureMode:b.signatureMode};
 }
+export function snapshotDraft(draft:MaintenanceDraft){
+ return {...draft,branchData:maintenanceBranches.find(b=>b.id===draft.branch)!,texts:{...maintenanceText},templateVersion:maintenanceTemplateVersion};
+}
+export type MaintenanceSnapshot=ReturnType<typeof snapshotDraft>&{id:string;createdAt:string;createdBy:string;signature?:{id:string;image:string;authorizedBy:string;authorizedAt:string}|null};
