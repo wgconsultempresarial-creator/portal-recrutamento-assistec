@@ -22,7 +22,7 @@ export async function GET(r:Request){
 export async function POST(r:Request){
  const u=await admin();if(!u||!sameOrigin(r))return reply({error:'Acesso restrito.'},403);
  const raw=await r.text();if(raw.length>750000)return reply({error:'Imagem muito grande (máximo 500 KB).'},413);
- let b;
+ let b:{branch:string;image:string;authorized?:boolean};
  try{b=JSON.parse(raw);if(!maintenanceBranches.some(x=>x.id===b.branch)||b.authorized!==true||typeof b.image!=='string'||!/^data:image\/(png|jpeg);base64,[A-Za-z0-9+/]+=*$/.test(b.image)||b.image.length>700000)throw Error();
   const bytes=Uint8Array.from(atob(b.image.split(',')[1]),c=>c.charCodeAt(0));if(bytes.length>500000)throw Error();
   if(b.image.startsWith('data:image/png')){
