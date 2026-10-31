@@ -1,23 +1,26 @@
-# Laudos de Manutenção — implementação preliminar
+# Laudos de Manutenção
 
-Base: commit 6a2313e6e4d950b1532b0ea026734ff90fd303d9.
+## Fontes conferidas
 
-Implementado localmente: aba no painel do RH, empresa/placa/data/filial, serviços dinâmicos, validação no cliente e servidor, prévia de rascunho e histórico imutável dos últimos 200 rascunhos. Os endpoints exigem o administrador existente (`RH_EMAILS`); POST exige a mesma origem. A opção de assinatura fica registrada; a assinatura autorizada é rejeitada enquanto não houver cadastro verificado. Nenhuma imagem de assinatura foi reutilizada.
+Os três DOCX fornecidos pelo usuário foram lidos em 31/10/2026. A configuração em app/lib/maintenance.ts preserva razão social, CNPJ, endereço, telefone, e-mail e identificação sob assinatura por filial. O endereço legal de Sumaré em Americana/SP foi confirmado expressamente pelo usuário. O título foi padronizado para LAUDO DE MANUTENÇÃO, corrigindo LAÚDO dos modelos de Sumaré e Cubatão. A pontuação da conclusão foi padronizada com ponto final.
 
-Aplicar a migração `drizzle/0002_maintenance_reports.sql` no ambiente de teste antes de testar o histórico. Não foi aplicada em produção.
+O e-mail de Ribeirão Preto é ribpreto@assistecpneumatica.com.br, confirmado pelo usuário e presente no DOCX recebido. Telefones foram preservados com DDD 019, sem deduzir outro DDD a partir do município.
 
-## Fontes faltantes
+Arquivos originais e imagens de assinaturas não foram adicionados ao repositório público. Sua presença em um documento assinado não constitui cadastro de autorização para novas emissões.
 
-Os três DOCX de Sumaré, Cubatão e Ribeirão Preto não foram disponibilizados no histórico recuperado nem neste projeto. Não presumir CNPJ, razão social, endereço, telefone, e-mails restantes ou textos fixos. O único e-mail confirmado é `ribpreto@assistecpneumatica.com.br`.
+## Implementação da prévia
 
-## Necessário antes de concluir
+Aba no painel do RH, empresa/placa/data/filial, serviços dinâmicos, validação no cliente e servidor, prévia com introdução e conclusão dos originais e histórico imutável dos últimos 200 rascunhos. GET e POST exigem o administrador existente (RH_EMAILS); POST exige a mesma origem. A opção de assinatura fica registrada; a assinatura autorizada é rejeitada enquanto não houver cadastro verificado.
 
-1. Recuperar os DOCX, conferir os dados por filial e transcrever os textos fixos.
-2. Apresentar o layout fiel aos modelos para aprovação.
-3. Definir quem pode emitir e autorizar assinaturas por filial; implementar autorização no servidor e armazenamento privado dos arquivos autorizados.
-4. Implementar PDF com paginação para serviços extensos, preservando o conteúdo integral, os dados legais e a versão da autorização em cada emissão.
-5. Completar histórico de emissões com cópias imutáveis do cadastro e do documento.
-6. Executar compilação e teste real autenticado de formulário, histórico, permissões e PDF.
-7. Publicar somente após aprovação e verificar URL e fluxo real.
+Aplicar drizzle/0002_maintenance_reports.sql no ambiente de teste antes de testar o histórico. Nenhuma migração foi aplicada em produção.
 
-A prévia atual é estrutural e não serve como laudo emitido. Nenhuma publicação foi realizada.
+## Etapas pendentes
+
+1. Aprovação pelo usuário das três prévias em PDF, com dados demonstrativos e espaço para assinatura manual.
+2. Emissão de PDF no portal, com paginação de serviços extensos e cópias imutáveis dos dados legais e textos de cada emissão.
+3. Cadastro privado, autorização e revogação de assinatura/carimbo por filial. Nunca servir assinatura por arquivo estático público.
+4. Histórico de emissões e versão da autorização usada em cada documento.
+5. Compilação e teste autenticado de formulário, histórico, permissões e PDF. A instalação offline não foi concluída porque o cache não contém os pacotes do projeto; a compilação não pôde ser executada nesta etapa.
+6. Publicação somente após aprovação; verificar URL e fluxo real.
+
+Os PDFs entregues nesta etapa são prévias para aprovação, não laudos emitidos. A visualização dos DOCX pelo renderizador empacotado não foi possível porque LibreOffice não está disponível; os textos, cabeçalhos, rodapés e imagens internas foram inspecionados diretamente. Os PDFs de prévia foram renderizados e revisados visualmente.

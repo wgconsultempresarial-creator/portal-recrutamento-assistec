@@ -1,9 +1,14 @@
-// Legal details and fixed wording must be transcribed from the three source DOCX.
-// Keep issuance disabled until those sources and the visual layout are approved.
+// Transcribed from the three source DOCX; Sumare legal address confirmed by user.
+// Source files and signature images must never be committed to this public repo.
+export const maintenanceText = {
+ introduction:'Confirmamos que o veículo mencionado foi submetido a manutenção, onde foram realizados os seguintes serviços:',
+ conclusion:'O veículo está agora em condições de uso e todos os serviços necessários foram concluídos com sucesso.',
+};
+export const maintenanceTemplateVersion='2026-10-31-docx-v1';
 export const maintenanceBranches = [
-  {id:'sumare', name:'Sumaré', email:null},
-  {id:'cubatao', name:'Cubatão', email:null},
-  {id:'ribeirao-preto', name:'Ribeirão Preto', email:'ribpreto@assistecpneumatica.com.br'},
+  {id:'sumare', name:'Sumaré', email:'sumare@assistecpneumatica.com.br',legalName:'V. H. CODOGNOTO DA SILVA LTDA',cnpj:'29.523.564/0001-90',phone:'019 3044-8119',address:'Rua Entusiasmo, 100 Americana - SP - CEP: 13477-732',signatureLabel:'ASSISTEC - MANUTENCAO PNEUMATICA E ELETRICA'},
+  {id:'cubatao', name:'Cubatão', email:'cubatao@assistecpneumatica.com.br',legalName:'ASSISTEC - MANUTENCAO PNEUMATICA E ELETRICA LTDA',cnpj:'42.378.571/0001-04',phone:'019 3199-4822',address:'Rua Epitácio Pessoa, 89 Cubatão SP - CEP: 11550-020',signatureLabel:'ASSISTEC - MANUTENCAO PNEUMATICA E ELETRICA LTDA'},
+  {id:'ribeirao-preto', name:'Ribeirão Preto', email:'ribpreto@assistecpneumatica.com.br',legalName:'ASSISTEC MANUTENCAO E REPARACAO RB LTDA',cnpj:'46.283.458/0001-04',phone:'019 3044-8119',address:'Avenida Ticiano Mazzetto, 301 Ribeirão Preto SP - CEP: 14073-800',signatureLabel:'ASSISTEC – MANUTENCAO E REPARACAO RB LTDA'},
 ] as const;
 export type MaintenanceDraft = {
   branch:string; company:string; plate:string; date:string;
