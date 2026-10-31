@@ -25,9 +25,13 @@ Em Gerenciar assinatura/carimbo, o administrador seleciona a filial, envia PNG o
 - Snapshots das migrações 0002/0003 completos; índice parcial de autorização ativa declarado no schema. Drizzle confirma que não há divergência de schema.
 - A prévia iniciou em http://terminal.local:4173/, mas o navegador da nuvem retornou ERR_CONNECTION_REFUSED. A verificação visual interativa local permanece indisponível por roteamento da prévia.
 
-## Publicação
+## Publicação concluída
 
-Em preparação no Site existente, preservando domínio, público e RH_EMAILS. As migrações de produção são aplicadas pelo fluxo Sites. Conferir resultado de implantação e URL antes de declarar publicação concluída.
+Versão 5 publicada em 31/10/2026 no Site existente. Implantação appgdep_6ae65770993c819181b5214375f51199 retornou succeeded. Fonte Sites: 9158f066d6d84b93f0441b3fbc4ed114e2d724ae.
+
+A primeira tentativa foi interrompida por uma migração temporária duplicada no artefato anterior. O pacote foi recompilado da fonte limpa, com apenas 0000 a 0003, e as integrações passaram novamente. Nenhuma migração aplicada foi editada. A leitura de produção confirmou as novas tabelas e as 13 colunas de maintenance_reports; nenhum dado fictício foi gravado em produção.
+
+https://vagas.assistecpneumatica.com.br/rh foi aberto após a implantação e respondeu com a tela de acesso restrito. Não há sessão ChatGPT no navegador da nuvem para verificar o fluxo administrativo em produção. Criar, prévia, emissão, download, histórico e autorizações foram validados por integração em banco isolado; a conferência visual autenticada continua pendente.
 
 ## Comandos de validação
 
