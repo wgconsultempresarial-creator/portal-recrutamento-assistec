@@ -14,20 +14,24 @@ A emissão é restrita aos administradores já definidos por RH_EMAILS. Toda alt
 
 Em Gerenciar assinatura/carimbo, o administrador seleciona a filial, envia PNG ou JPEG até 500 KB, confere a imagem e confirma expressamente possuir autorização. O servidor registra identidade, data e filial e valida a imagem. Apenas uma autorização pode ficar ativa por filial. Para substituir, revogar a atual e cadastrar outra. A autorização pode ser revogada a qualquer momento para novas emissões; PDFs históricos permanecem inalterados. A emissão verifica filial e revogação novamente no comando que grava o registro, prevenindo uso de autorização revogada durante a geração.
 
-## Preparação e validação pendentes
+## Validação na nuvem — 31/10/2026
 
-1. Instalar dependências com o lockfile atualizado, compilar o projeto e executar os testes de integração antes de publicar.
-2. Aplicar as migrações 0002 e 0003 no ambiente de teste; conferir o fluxo autenticado e o PDF por filial. A migração de produção deve preservar os dados existentes.
-3. Publicar no Site existente appgprj_6adbbad09d708191ad9ab152e764215f, preservando público e acesso administrativo; verificar a URL e o fluxo real.
+- Instalação pelo helper Sites concluída: lockfile validado, cinco pacotes baixados.
+- Compilação de produção concluída, incluindo todas as rotas de laudos.
+- Checagem TypeScript completa concluída após corrigir tipos de respostas JSON e cadastro de assinatura.
+- Nove testes unitários/PDF/armazenamento passaram.
+- Integração de manutenção passou em D1 isolado: rascunho, emissão, download, idempotência, histórico, autorização por filial, revogação e preservação do PDF anterior.
+- Regressão de recrutamento: 34 verificações passaram em D1 isolado, incluindo preservação de candidatura anterior.
+- Snapshots das migrações 0002/0003 completos; índice parcial de autorização ativa declarado no schema. Drizzle confirma que não há divergência de schema.
+- A prévia iniciou em http://terminal.local:4173/, mas o navegador da nuvem retornou ERR_CONNECTION_REFUSED. A verificação visual interativa local permanece indisponível por roteamento da prévia.
 
-Nenhuma migração foi aplicada em produção e esta alteração não foi publicada. O ambiente impediu o download das dependências; a solicitação de acesso adicional foi rejeitada automaticamente. A compilação e os testes de integração completos continuam pendentes.
+## Publicação
 
-## Testes
+Em preparação no Site existente, preservando domínio, público e RH_EMAILS. As migrações de produção são aplicadas pelo fluxo Sites. Conferir resultado de implantação e URL antes de declarar publicação concluída.
 
+## Comandos de validação
+
+- node node_modules/typescript/bin/tsc --noEmit
 - node --experimental-strip-types --test tests/maintenance.test.mjs tests/maintenance-pdf.test.mjs tests/maintenance-storage.test.mjs
-- Após compilar: node tests/maintenance.integration.mjs
-- Regressão de recrutamento após compilar: node tests/recruitment.integration.mjs
-
-Nove testes locais passaram: validação dos campos, datas e placas, rejeição de assinatura não cadastrada, PDF A4 nas três filiais, paginação extensa, imagem PNG, bloqueio por filial/revogação e preservação de candidatura anterior nas migrações. Um PDF real de teste com 18 serviços foi renderizado em duas páginas, com todos os serviços e os rodapés conferidos. Os testes de integração de rotas autenticadas estão escritos, mas não foram executados sem a compilação.
-
-A dependência pdf-lib 1.17.1 e suas entradas de integridade foram adicionadas a partir do lockfile do runtime local disponível. O gerenciador de pacotes precisa validar o lockfile no ambiente de compilação.
+- node tests/maintenance.integration.mjs
+- node tests/recruitment.integration.mjs
